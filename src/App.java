@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 
 public class App{
     
@@ -9,6 +12,7 @@ public class App{
  * @author Marcelo Heredia
  */
     public static void main (String[]args){
+        final String filepath = "input\\";
         Scanner in = new Scanner(System.in);
         TextEncoder encoder;
         TextDecoder decoder;
@@ -32,6 +36,24 @@ public class App{
                             file += ".txt";
                         }
                         encoder = new TextEncoder(file);
+                        boolean use = encoder.Start();
+                        if (!use){
+                            System.out.println("Arquivo não encontrado.");
+                            continue;
+                        }
+                        System.out.println("Concluido.");
+                        if(Desktop.isDesktopSupported()){
+                            try{
+                                File textFile = new File(filepath+file);
+                                Desktop desktop = Desktop.getDesktop();
+                                if(textFile.exists()){
+                                    desktop.open(textFile);
+                                }
+                            }
+                            catch(Exception ex){
+                                continue;
+                            }
+                        }
                         break;
                     case 2:
                         System.out.println("Digite o nome do arquivo a ser decodificado");
@@ -41,6 +63,24 @@ public class App{
                             file += ".txt";
                         }
                         decoder = new TextDecoder(file);
+                        boolean use = decoder.Start();
+                        if (!use){
+                            System.out.println("Arquivo não encontrado.");
+                            continue;
+                        }
+                        System.out.println("Concluido.");
+                        if(Desktop.isDesktopSupported()){
+                            try{
+                                File textFile = new File(filepath+file);
+                                Desktop desktop = Desktop.getDesktop();
+                                if(textFile.exists()){
+                                    desktop.open(textFile);
+                                }
+                            }
+                            catch(Exception ex){
+                                continue;
+                            }
+                        }
                         break;
                     default:
                         continue;
@@ -53,5 +93,6 @@ public class App{
             }
         }
         while (control != 0);
+        in.close();
     }
 }

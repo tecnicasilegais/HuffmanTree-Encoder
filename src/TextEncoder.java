@@ -14,10 +14,19 @@ public class TextEncoder {
 	private final String path = "input\\";
 	private String fullPath;
 
+	/**
+	 * Constructor method
+	 * @param filename name of file to encode
+	 */
 	public TextEncoder(String filename){
 		this.fullPath = path + filename;
 	}
 
+	public boolean Start(){
+		PrintFrequencyMap(fullPath);
+	}
+
+	
 	/**
 	 * Counts the frequency each character from the string appears.
 	 * 

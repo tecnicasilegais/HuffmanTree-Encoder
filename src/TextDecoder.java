@@ -6,5 +6,8 @@ public class TextDecoder{
 		this.fullPath = path + filename;
 	}
 
+    public boolean Start(){
+
+    }
     
 }
