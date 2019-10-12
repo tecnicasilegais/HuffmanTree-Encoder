@@ -11,12 +11,21 @@ import java.util.PriorityQueue;
 public class HuffmanTree {
 	Node treeRoot;
 
+	/**
+	 * Tree node implementation
+	 */
 	private class Node implements Comparable<Node> {
 		private Character character;
 		private Integer frequency;
 		private Node left;
 		private Node right;
 
+		/**
+		 * Creates a new node with left and right as null.
+		 * 
+		 * @param character char to be saved in the node
+		 * @param frequency frequency the character appears
+		 */
 		public Node(Character character, Integer frequency) {
 			this.character = character;
 			this.frequency = frequency;
@@ -24,6 +33,14 @@ public class HuffmanTree {
 			this.right = null;
 		}
 
+		/**
+		 * Creates a new node.
+		 * 
+		 * @param character char to be saved in the node
+		 * @param frequency frequency the character appears
+		 * @param left      left child node
+		 * @param right     right child node
+		 */
 		public Node(Character character, Integer frequency, Node left, Node right) {
 			this.character = character;
 			this.frequency = frequency;

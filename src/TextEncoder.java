@@ -9,7 +9,6 @@ import java.util.Map.Entry;
  * @author Marcelo Heredia
  */
 public class TextEncoder {
-<<<<<<< HEAD
 	private final String path = "input\\";
 	private String fullPath;
 	private String filename;
@@ -47,7 +46,8 @@ public class TextEncoder {
 
 			return isOk && isOk2;
 
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			return false;
 		}
 	}
@@ -107,11 +107,14 @@ public class TextEncoder {
 			for (Entry<Character, String> entry : keys.entrySet()) {
 				if (String.valueOf(entry.getKey()).matches("\r")) {
 					key = "CR";
-				} else if (String.valueOf(entry.getKey()).matches("\n")) {
+				}
+				else if (String.valueOf(entry.getKey()).matches("\n")) {
 					key = "LF";
-				} else if (Character.isWhitespace(entry.getKey())) {
+				}
+				else if (Character.isWhitespace(entry.getKey())) {
 					key = "SP";
-				} else {
+				}
+				else {
 					key = entry.getKey().toString();
 				}
 				sb.append(entry.getValue() + " " + key + "\n");
@@ -119,7 +122,8 @@ public class TextEncoder {
 			String newFileName = path + "key" + filename;
 			boolean result = FileOperations.WriteStringToFile(Paths.get(newFileName), sb.toString());
 			return result;
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 			return false;
 		}
 
