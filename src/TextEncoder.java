@@ -11,8 +11,11 @@ import java.util.HashMap;
  * @author Marcelo Heredia
  */
 public class TextEncoder {
-	public static void main(String[] args) {
-		PrintFrequencyMap("input\\king_james.txt");
+	private final String path = "input\\";
+	private String fullPath;
+
+	public TextEncoder(String filename){
+		this.fullPath = path + filename;
 	}
 
 	/**
