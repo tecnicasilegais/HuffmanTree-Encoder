@@ -30,17 +30,17 @@ public class TextEncoder {
 	 */
 	public boolean Start() {
 		try {
-			// leitura do arquivo
+			// file reading
 			String fileText = PrintFrequencyMap(fullPath);
-			// contagem frequencia
+			// frequency count
 			HashMap<Character, Integer> map = StringToFrequencyMap(fileText);
-			// criando a arvore de codigos de prefixo
+			// creating tree
 			HuffmanTree tree = new HuffmanTree(map);
-			// exportando o codigo de cada simbolo para um hashmap
+			// export code to hashmap
 			HashMap<Character, String> code = tree.NodeTreeToCodeMap();
-			// escrever um arquivo texto com o hashMap e converter o original
+			// convert to string
 			String encodedText = Codify(fileText, code);
-			// replace file text with the code
+			// replace text
 			boolean isOk = FileOperations.WriteStringToFile(Paths.get(fullPath), encodedText);
 			boolean isOk2 = SaveKeys(code, path, filename);
 
