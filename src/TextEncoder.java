@@ -1,8 +1,6 @@
-import java.io.IOException;
-import java.nio.file.InvalidPathException;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * Implementation of a text encoder using Huffman Tree
@@ -13,20 +11,62 @@ import java.util.HashMap;
 public class TextEncoder {
 	private final String path = "input\\";
 	private String fullPath;
+	private String filename;
 
 	/**
 	 * Constructor method
+	 * 
 	 * @param filename name of file to encode
 	 */
-	public TextEncoder(String filename){
+	public TextEncoder(String filename) {
 		this.fullPath = path + filename;
+		this.filename = filename;
 	}
 
-	public boolean Start(){
-		PrintFrequencyMap(fullPath);
+	/**
+	 * Start codification
+	 * 
+	 * @return true for success or false for failure
+	 */
+	public boolean Start() {
+		try {
+			// leitura do arquivo
+			String fileText = PrintFrequencyMap(fullPath);
+			// contagem frequencia
+			HashMap<Character, Integer> map = StringToFrequencyMap(fileText);
+			// criando a arvore de codigos de prefixo
+			HuffmanTree tree = new HuffmanTree(map);
+			// exportando o codigo de cada simbolo para um hashmap
+			HashMap<Character, String> code = tree.NodeTreeToCodeMap();
+			// escrever um arquivo texto com o hashMap e converter o original
+			String encodedText = Codify(fileText, code);
+			// replace file text with the code
+			boolean isOk = FileOperations.WriteStringToFile(Paths.get(fullPath), encodedText);
+			boolean isOk2 = SaveKeys(code, path, filename);
+
+			return isOk && isOk2;
+
+		} catch (Exception ex) {
+			return false;
+		}
 	}
 
-	
+	/**
+	 * Codifies the text into a encoded text
+	 * 
+	 * @param text original text
+	 * @param code codes
+	 * @return encoded String
+	 */
+	private static String Codify(String text, HashMap<Character, String> code) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < text.length(); i++) {
+			Character letter = text.charAt(i);
+			sb.append(code.get(letter));
+		}
+		return sb.toString();
+	}
+
 	/**
 	 * Counts the frequency each character from the string appears.
 	 * 
@@ -34,7 +74,7 @@ public class TextEncoder {
 	 * @return a HashMap using the characters from input as keys and their
 	 *         respective frequencies as values
 	 */
-	public static HashMap<Character, Integer> StringToFrequencyMap(String input) {
+	private static HashMap<Character, Integer> StringToFrequencyMap(String input) {
 		HashMap<Character, Integer> frequencyMap = new HashMap<Character, Integer>();
 		for (int i = 0; i < input.length(); i++) {
 			char c = input.charAt(i);
@@ -46,35 +86,41 @@ public class TextEncoder {
 		return frequencyMap;
 	}
 
-	private static void PrintFrequencyMap(String path) {
+	/**
+	 * put all the file's text into a string
+	 * 
+	 * @param path file
+	 * @return returns the string with the text
+	 * @throws Exception
+	 */
+	private static String PrintFrequencyMap(String path) throws Exception {
 		String fileContent = "";
+		fileContent = FileOperations.ReadFileToString(Paths.get(path));
+		return fileContent;
+	}
+
+	private static boolean SaveKeys(HashMap<Character, String> keys, String path, String filename) {
 		try {
-			fileContent = FileOperations.ReadFileToString(Paths.get(path));
-		}
-		catch (NoSuchFileException e) {
-			e.printStackTrace();
-		}
-		catch (InvalidPathException e) {
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		HashMap<Character, Integer> map = StringToFrequencyMap(fileContent);
-		for (Character c : map.keySet()) {
-			if (String.valueOf(c).matches("\r")) {
-				System.out.println("CR\t-\t" + map.get(c));
+			StringBuilder sb = new StringBuilder();
+			String key;
+			for (Entry<Character, String> entry : keys.entrySet()) {
+				if (String.valueOf(entry.getKey()).matches("\r")) {
+					key = "CR";
+				} else if (String.valueOf(entry.getKey()).matches("\n")) {
+					key = "LF";
+				} else if (Character.isWhitespace(entry.getKey())) {
+					key = "SP";
+				} else {
+					key = entry.getKey().toString();
+				}
+				sb.append(entry.getValue() + " " + key + "\n");
 			}
-			else if (String.valueOf(c).matches("\n")) {
-				System.out.println("LF\t-\t" + map.get(c));
-			}
-			else if (Character.isWhitespace(c)) {
-				System.out.println("Space\t-\t" + map.get(c));
-			}
-			else {
-				System.out.println(c + "\t-\t" + map.get(c));
-			}
+			String newFileName = path + "key" + filename;
+			boolean result = FileOperations.WriteStringToFile(Paths.get(newFileName), sb.toString());
+			return result;
+		} catch (Exception ex) {
+			return false;
 		}
+
 	}
 }

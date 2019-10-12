@@ -25,8 +25,20 @@ public class FileOperations {
 		return str;
 	}
 
-	public static boolean WriteStringToFile(Path filePath) throws IOException {
-		return false;
-
+	/**
+	 * Write file 
+	 * @param filePath path to the file
+	 * @param text text to write
+	 * @return success or failure
+	 * @throws IOException
+	 */
+	public static boolean WriteStringToFile(Path filePath, String text) throws IOException {
+		try{
+			Files.write(filePath, text.getBytes());
+			return true;
+		}
+		catch (Exception ex){
+			return false;
+		}
 	}
 }
