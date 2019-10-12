@@ -24,4 +24,9 @@ public class FileOperations {
 		String str = Files.lines(filePath, StandardCharsets.US_ASCII).collect(Collectors.joining("\n"));
 		return str;
 	}
+
+	public static boolean WriteStringToFile(Path filePath) throws IOException {
+		return false;
+
+	}
 }

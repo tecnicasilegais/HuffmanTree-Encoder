@@ -50,16 +50,22 @@ public class HuffmanTree {
 
 	}
 
-	public HuffmanTree(HashMap<Character,Integer> map) {
+	public HuffmanTree(HashMap<Character, Integer> map) {
 		this.map = map;
-		queue = this.MapToNodeQueue(map);
+		queue = this.MapToNodeTree(map);
 	}
 
-	private PriorityQueue<Node> MapToNodeQueue(HashMap<Character, Integer> hashMap) {
-		PriorityQueue<Node> tempQueue = new PriorityQueue<Node>;
+	private PriorityQueue<Node> MapToNodeTree(HashMap<Character, Integer> hashMap) {
+		PriorityQueue<Node> tempQueue = new PriorityQueue<Node>();
 		for (Entry<Character, Integer> entry : map.entrySet()) {
-			entry.
+			tempQueue.add(new Node(entry.getKey(), entry.getValue()));
 		}
+
+		while (!tempQueue.isEmpty()) {
+			Node removed = tempQueue.poll();
+		}
+
+		return tempQueue;
 	}
 
 }
