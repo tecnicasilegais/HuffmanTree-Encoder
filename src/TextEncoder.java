@@ -3,6 +3,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * Implementation of a text encoder using Huffman Tree
@@ -12,7 +13,9 @@ import java.util.HashMap;
  */
 public class TextEncoder {
 	public static void main(String[] args) {
-		PrintFrequencyMap("input\\king_james.txt");
+		String path = "input\\teste.txt";
+		PrintCodeMap(path);
+		// PrintFrequencyMap(path);
 	}
 
 	/**
@@ -34,19 +37,41 @@ public class TextEncoder {
 		return frequencyMap;
 	}
 
+	private static void PrintCodeMap(String path) {
+		String fileContent = "";
+
+		try {
+			fileContent = FileOperations.ReadFileToString(Paths.get(path));
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		HuffmanTree tree = new HuffmanTree(StringToFrequencyMap(fileContent));
+		HashMap<Character, String> codeMap = tree.NodeTreeToCodeMap();
+
+		for (Entry<Character, String> entry : codeMap.entrySet()) {
+			if (String.valueOf(entry.getKey()).matches("\r")) {
+				System.out.println("CR\t-\t" + entry.getValue());
+			}
+			else if (String.valueOf(entry.getKey()).matches("\n")) {
+				System.out.println("LF\t-\t" + entry.getValue());
+			}
+			else if (Character.isWhitespace(entry.getKey())) {
+				System.out.println("SP\t-\t" + entry.getValue());
+			}
+			else {
+				System.out.println(entry.getKey() + "\t-\t" + entry.getValue());
+			}
+		}
+	}
+
 	private static void PrintFrequencyMap(String path) {
 		String fileContent = "";
 		try {
 			fileContent = FileOperations.ReadFileToString(Paths.get(path));
 		}
-		catch (NoSuchFileException e) {
-			e.printStackTrace();
-		}
-		catch (InvalidPathException e) {
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		HashMap<Character, Integer> map = StringToFrequencyMap(fileContent);
