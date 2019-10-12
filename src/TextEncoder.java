@@ -9,6 +9,7 @@ import java.util.Map.Entry;
  * @author Marcelo Heredia
  */
 public class TextEncoder {
+<<<<<<< HEAD
 	private final String path = "input\\";
 	private String fullPath;
 	private String filename;

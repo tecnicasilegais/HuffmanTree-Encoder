@@ -9,8 +9,7 @@ import java.util.PriorityQueue;
  * @author Marcelo Heredia
  */
 public class HuffmanTree {
-	HashMap<Character, Integer> map;
-	PriorityQueue<Node> queue;
+	Node treeRoot;
 
 	private class Node implements Comparable<Node> {
 		private Character character;
@@ -52,18 +51,31 @@ public class HuffmanTree {
 	}
 
 	public HuffmanTree(HashMap<Character, Integer> map) {
-		this.map = map;
-		queue = this.MapToNodeTree(map);
+		treeRoot = this.MapToNodeTree(map);
 	}
 
 	public HashMap<Character, String> NodeTreeToCodeMap() {
-		HashMap<Character, String> codeMap;
-		Node root
+		HashMap<Character, String> codeMap = new HashMap<Character, String>();
+		GetCode(treeRoot, codeMap, "");
+		return codeMap;
 	}
 
-	private PriorityQueue<Node> MapToNodeTree(HashMap<Character, Integer> hashMap) {
+	private static void GetCode(Node root, HashMap<Character, String> codeMap, String str) {
+		if (!root.hasLeft() && !root.hasRight() && root.hasCharacter()) {
+			codeMap.put(root.character, str);
+			return;
+		}
+		if (root.hasLeft()) {
+			GetCode(root.left, codeMap, str + "0");
+		}
+		if (root.hasRight()) {
+			GetCode(root.right, codeMap, str + "1");
+		}
+	}
+
+	private Node MapToNodeTree(HashMap<Character, Integer> hashMap) {
 		PriorityQueue<Node> tempQueue = new PriorityQueue<Node>();
-		for (Entry<Character, Integer> entry : map.entrySet()) {
+		for (Entry<Character, Integer> entry : hashMap.entrySet()) {
 			tempQueue.add(new Node(entry.getKey(), entry.getValue()));
 		}
 
@@ -74,7 +86,7 @@ public class HuffmanTree {
 			tempQueue.add(newNode);
 		}
 
-		return tempQueue;
+		return tempQueue.element();
 	}
 
 }
