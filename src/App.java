@@ -18,6 +18,7 @@ public class App{
         TextDecoder decoder;
         String file;
         int control = 0;
+        boolean use;
         do {
             try{ 
                 System.out.println("Digite a operação desejada");
@@ -36,7 +37,7 @@ public class App{
                             file += ".txt";
                         }
                         encoder = new TextEncoder(file);
-                        boolean use = encoder.Start();
+                        use = encoder.Start();
                         if (!use){
                             System.out.println("Arquivo não encontrado.");
                             continue;
@@ -63,7 +64,7 @@ public class App{
                             file += ".txt";
                         }
                         decoder = new TextDecoder(file);
-                        boolean use = decoder.Start();
+                        use = decoder.Start();
                         if (!use){
                             System.out.println("Arquivo não encontrado.");
                             continue;
