@@ -12,21 +12,7 @@ import java.util.HashMap;
  */
 public class TextEncoder {
 	public static void main(String[] args) {
-		String fileContent = "";
-		try {
-			fileContent = FileOperations.ReadFileToString(Paths.get("input\\king_james.txt"));
-		} catch (NoSuchFileException e) {
-			e.printStackTrace();
-		} catch (InvalidPathException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		HashMap<Character, Integer> map = StringToFrequencyMap(fileContent);
-		for (Character c : map.keySet()) {
-			System.out.println(c + "\t-\t" + map.get(c));
-		}
+		PrintFrequencyMap("input\\king_james.txt");
 	}
 
 	/**
@@ -46,5 +32,37 @@ public class TextEncoder {
 			frequencyMap.put(c, frequency + 1);
 		}
 		return frequencyMap;
+	}
+
+	private static void PrintFrequencyMap(String path) {
+		String fileContent = "";
+		try {
+			fileContent = FileOperations.ReadFileToString(Paths.get(path));
+		}
+		catch (NoSuchFileException e) {
+			e.printStackTrace();
+		}
+		catch (InvalidPathException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HashMap<Character, Integer> map = StringToFrequencyMap(fileContent);
+		for (Character c : map.keySet()) {
+			if (String.valueOf(c).matches("\r")) {
+				System.out.println("CR\t-\t" + map.get(c));
+			}
+			else if (String.valueOf(c).matches("\n")) {
+				System.out.println("LF\t-\t" + map.get(c));
+			}
+			else if (Character.isWhitespace(c)) {
+				System.out.println("Space\t-\t" + map.get(c));
+			}
+			else {
+				System.out.println(c + "\t-\t" + map.get(c));
+			}
+		}
 	}
 }

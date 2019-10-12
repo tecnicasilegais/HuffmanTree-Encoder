@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - TextEncoder",
+            "request": "launch",
+            "mainClass": "TextEncoder",
+            "projectName": "codificador"
+        }
+    ]
+}
