@@ -15,16 +15,21 @@ public class HuffmanTree {
 	private class Node implements Comparable<Node> {
 		private Character character;
 		private Integer frequency;
-		private Node father;
 		private Node left;
 		private Node right;
 
 		public Node(Character character, Integer frequency) {
 			this.character = character;
 			this.frequency = frequency;
-			this.father = null;
 			this.left = null;
 			this.right = null;
+		}
+
+		public Node(Character character, Integer frequency, Node left, Node right) {
+			this.character = character;
+			this.frequency = frequency;
+			this.left = left;
+			this.right = right;
 		}
 
 		@Override
@@ -34,10 +39,6 @@ public class HuffmanTree {
 
 		public boolean hasCharacter() {
 			return this.character != null;
-		}
-
-		public boolean hasFather() {
-			return this.father != null;
 		}
 
 		public boolean hasLeft() {
@@ -55,14 +56,22 @@ public class HuffmanTree {
 		queue = this.MapToNodeTree(map);
 	}
 
+	public HashMap<Character, String> NodeTreeToCodeMap() {
+		HashMap<Character, String> codeMap;
+		Node root
+	}
+
 	private PriorityQueue<Node> MapToNodeTree(HashMap<Character, Integer> hashMap) {
 		PriorityQueue<Node> tempQueue = new PriorityQueue<Node>();
 		for (Entry<Character, Integer> entry : map.entrySet()) {
 			tempQueue.add(new Node(entry.getKey(), entry.getValue()));
 		}
 
-		while (!tempQueue.isEmpty()) {
-			Node removed = tempQueue.poll();
+		while (tempQueue.size() >= 2) {
+			Node[] removed = { tempQueue.poll(), tempQueue.poll() };
+			int frequencySum = removed[0].frequency + removed[1].frequency;
+			Node newNode = new Node(null, frequencySum, removed[0], removed[1]);
+			tempQueue.add(newNode);
 		}
 
 		return tempQueue;
