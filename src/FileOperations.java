@@ -21,8 +21,7 @@ public class FileOperations {
 	 * @throws IOException if an I/O error occurs while trying to open the file
 	 */
 	public static String ReadFileToString(Path filePath) throws IOException, NoSuchFileException {
-		String str = Files.lines(filePath, StandardCharsets.US_ASCII).collect(Collectors.joining("\n"));
-		return str;
+		return Files.lines(filePath, StandardCharsets.US_ASCII).collect(Collectors.joining("\n"));
 	}
 
 	/**
