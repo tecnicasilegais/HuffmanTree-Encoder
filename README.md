@@ -1,2 +1,2 @@
-# codificador
-[ALEST II] Codificador usando Huffman Tree
+# HuffmanTree-Encoder
+Huffman Tree encoder for Algorithms and Data Structures II class
